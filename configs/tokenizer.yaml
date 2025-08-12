@@ -1,0 +1,10 @@
+defaults:
+  - tokenizer@data: data
+  - tokenizer@model: model
+  - tokenizer@training: training
+  - tokenizer@transforms.val: val_transforms
+  - tokenizer@transforms.train: train_transforms
+
+hydra:
+  run:
+    dir: ./experiments/${training.type}/${now:%Y-%m-%d_%H_%M_%S}

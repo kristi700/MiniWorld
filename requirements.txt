@@ -1,2 +1,4 @@
 vector-quantize-pytorch
 pytest
+hydra-core
+omegaconf

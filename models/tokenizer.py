@@ -4,10 +4,10 @@ import torch.nn as nn
 from vector_quantize_pytorch import VectorQuantize
 
 class VQ_VAE(nn.Module):
-    def __init__(self, channels=3, embedding_dim=64, codebook_size=256):
+    def __init__(self, image_shape, embedding_dim=64, codebook_size=256):
         super().__init__()
         self.encoder = nn.Sequential(
-            nn.Conv2d(channels, 32, kernel_size=4, stride=2, padding=1),
+            nn.Conv2d(image_shape[0], 32, kernel_size=4, stride=2, padding=1),
             nn.ReLU(),
             nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1),
             nn.ReLU(),
@@ -25,7 +25,7 @@ class VQ_VAE(nn.Module):
             nn.ReLU(),
             nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2, padding=1),
             nn.ReLU(),
-            nn.ConvTranspose2d(32, channels, kernel_size=3, stride=1, padding=1),
+            nn.ConvTranspose2d(32, image_shape[0], kernel_size=3, stride=1, padding=1),
             nn.Tanh()
         )
 

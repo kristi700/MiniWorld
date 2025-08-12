@@ -1,0 +1,4 @@
+type: 'tokenizer'
+random_seed: 42
+batch_size: 128
+num_epochs: 130

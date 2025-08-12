@@ -1,0 +1,3 @@
+defaults:
+  - tokenizer.yaml
+  - _self_ # Overwrite everything before
