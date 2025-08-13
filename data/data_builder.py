@@ -17,16 +17,12 @@ def _get_dataset(config, mode, transforms):
     data_dir = config_section.get(
         "data_dir", config.get("data", {}).get("data_dir")
     )
-    data_csv = config_section.get(
-        "data_csv", config.get("data", {}).get("data_csv")
-    )
-
 
     if mode in ["tokenizer"]:
         if dataset_name.lower() == 'miniworld':
             return MiniWorldDataset(
-                data_csv, data_dir, transform=transforms["train"]
-            ), MiniWorldDataset(data_csv, data_dir, transform=transforms["val"])
+                data_dir, transform=transforms["train"]
+            ), MiniWorldDataset(data_dir, transform=transforms["val"])
         else:
            raise ValueError(f"Unknown dataset name: {dataset_name}")
     else:
