@@ -2,3 +2,6 @@ vector-quantize-pytorch
 pytest
 hydra-core
 omegaconf
+torch
+torcheval
+torcheval-nightly
