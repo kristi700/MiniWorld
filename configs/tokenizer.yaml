@@ -1,6 +1,7 @@
 defaults:
   - tokenizer@data: data
   - tokenizer@model: model
+  - tokenizer@metrics: metrics
   - tokenizer@training: training
   - tokenizer@transforms.val: val_transforms
   - tokenizer@transforms.train: train_transforms

@@ -39,7 +39,6 @@ class TokenizerTrainer(BaseTrainer):
         self.model.train()
         total, running_loss, running_recon_loss, running_cmt_loss = 0, 0, 0, 0
         metrics = {}
-        metrics_count = 0
 
         for idx, inputs in enumerate(self.train_loader):
             inputs = inputs.to(self.device)
@@ -72,23 +71,16 @@ class TokenizerTrainer(BaseTrainer):
 
             for key, value in batch_metrics.items():
                 metrics[key] += value
-            metrics_count += 1
 
             self.train_logger.train_log_step(epoch, idx)
 
-        for key in metrics:
-            metrics[key] /= metrics_count
-
-        metrics["Total Loss"] = running_loss / total
-        metrics["Recon Loss"] = running_recon_loss / total
-        metrics["Commit Loss"] = running_cmt_loss / total
+        metrics["Loss"] = running_loss / total
         return metrics
 
     def validate(self):
         self.model.eval()
         total, running_loss, running_recon_loss, running_cmt_loss = 0, 0, 0, 0
         metrics = {}
-        metrics_count = 0
 
         with torch.no_grad():
             for idx, inputs in enumerate(self.val_loader):
@@ -114,16 +106,10 @@ class TokenizerTrainer(BaseTrainer):
 
                 for key, value in batch_metrics.items():
                     metrics[key] += value
-                metrics_count += 1
 
                 self.train_logger.val_log_step(idx)
 
-        for key in metrics:
-            metrics[key] /= metrics_count
-
-        metrics["Total Loss"] = running_loss / total
-        metrics["Recon Loss"] = running_recon_loss / total
-        metrics["Commit Loss"] = running_cmt_loss / total
+        metrics["Loss"] = running_loss / total
         return metrics
 
     def _save_if_best(self, epoch, val_metrics):
@@ -133,9 +119,8 @@ class TokenizerTrainer(BaseTrainer):
                 "SSIM or PSNR not found in validation metrics. Cannot determine best model."
             )
 
-            score = -val_metrics.get("Recon Loss", float("inf"))
+            score = -val_metrics.get("Loss", float("inf"))
             if score > self.best_score:
-
                 return
 
         score = val_metrics["SSIM"] + 0.01 * val_metrics["PSNR"]
