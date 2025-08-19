@@ -5,3 +5,4 @@ omegaconf
 torch
 torcheval
 torcheval-nightly
+scikit-image==0.19.3
